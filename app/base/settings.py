@@ -10,12 +10,18 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
+    # built-in apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # third party apps
+    "rest_framework",
+    # local apps
+    "posts",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -49,6 +55,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "base.wsgi.application"
 
 
+AUTH_USER_MODEL = "users.CustomUser"
+
+AUTH_PROFILE_MODEL = "users.CustomUser"
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -75,7 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kiev9"
 
 USE_I18N = True
 
