@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-RUN apt-get update && apt-get install postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib gcc python3-dev musl-dev netcat lsof procps
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
