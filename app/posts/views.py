@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import permissions
 from posts.models import Post
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, PostDetailSerializer
 from posts.permissions import IsUserAuthorOrAdmin
 from posts.models import PostReactions
+from configs.collections import Actions
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -22,6 +23,11 @@ class PostViewSet(viewsets.ModelViewSet):
             permission_classes = (IsUserAuthorOrAdmin,)
 
         return [permission() for permission in permission_classes]
+
+    def get_serializer_class(self):
+        if self.action == Actions.RETRIEVE:
+            return PostDetailSerializer
+        return PostSerializer
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
