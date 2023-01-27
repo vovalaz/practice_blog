@@ -20,3 +20,13 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class UserDetailSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        fields = ["username", "password", "first_name", "last_name", "email", "is_staff", "date_joined", "last_login"]
+
+
+class UserBaseInfoSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        fields = ["username", "email"]

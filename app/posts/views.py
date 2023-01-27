@@ -11,7 +11,7 @@ from posts.models import PostReactions
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().prefetch_related("post_reactions")
     serializer_class = PostSerializer
 
     def get_permissions(self):
@@ -32,9 +32,22 @@ class ReactToPost(APIView):
         return [permissions.IsAuthenticated()]
 
     def post(self, request: Request, *args, **kwargs) -> Response:
-        PostReactions.objects.create(
-            user_id=request.user,
-            post_id=Post.objects.get(id=self.kwargs["post_id"]),
-            reaction=request.data.get("reaction")
+        reaction = request.data.get("reaction")
+        obj, created = PostReactions.objects.get_or_create(
+            user=request.user,
+            post=Post.objects.get(id=self.kwargs["post"]),
+            defaults={
+                "reaction": reaction,
+            }
         )
-        return Response("Reaction saved", status=status.HTTP_201_CREATED)
+
+        if not created:
+            if obj.reaction == reaction:
+                obj.delete()
+                return Response(f"Reaction {reaction} to post {obj.post} deleted", status=status.HTTP_204_NO_CONTENT)
+            else:
+                obj.reaction = reaction
+                obj.save()
+                return Response(f"Reaction {reaction} to post {obj.post} saved", status=status.HTTP_200_OK)
+
+        return Response(f"Reaction {reaction} to post {obj.post} saved", status=status.HTTP_201_CREATED)
