@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from configs.collections import ReactionTypes
 from reactions.models import Reaction
+from django.db.utils import IntegrityError
 
 
 class Command(BaseCommand):
@@ -8,7 +9,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for reaction in ReactionTypes:
-            Reaction.objects.create(reaction_code=reaction.value)
-            self.stdout.write(
-                self.style.SUCCESS("Reaction %s with code %s created successfully" % (reaction.name, reaction.value))
-            )
+            try:
+                Reaction.objects.create(reaction_code=reaction.value)
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        "Reaction %s with code %s created successfully" % (reaction.name, reaction.value)
+                    )
+                )
+            except IntegrityError:
+                self.stdout.write(
+                    self.style.WARNING(
+                        "Unique restriction violated with %s reaction %s" % (reaction.name, reaction.value)
+                    )
+                )
