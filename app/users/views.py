@@ -20,7 +20,7 @@ class UserViewSet(viewsets.ModelViewSet):
             permission_classes = (permissions.IsAdminUser, )
 
         return [permission() for permission in permission_classes]
-        
+
 
 class UserLogout(APIView):
     def post(self, request):

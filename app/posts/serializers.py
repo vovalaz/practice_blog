@@ -7,3 +7,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'title', 'text_content', 'post_date', 'user_id']
         extra_kwargs = {'user_id': {'read_only': True}}
+
+
+class PostDetailSerializer(PostSerializer):
+    pass

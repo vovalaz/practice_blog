@@ -1,14 +1,13 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from posts import views
+from reactions import views
 
 
 router = routers.DefaultRouter()
-router.register("", views.PostViewSet)
+router.register("", views.ReactionViewSet)
 
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("<int:post>/reaction/", views.ReactToPost.as_view()),
 ]
