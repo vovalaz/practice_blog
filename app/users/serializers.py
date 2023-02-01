@@ -27,6 +27,11 @@ class UserDetailSerializer(UserSerializer):
         fields = ["username", "password", "first_name", "last_name", "email", "is_staff", "date_joined", "last_login"]
 
 
+class UserUpdateSerializer(UserDetailSerializer):
+    class Meta(UserDetailSerializer.Meta):
+        extra_kwargs = {'password': {'write_only': True, 'required': False}}
+
+
 class UserBaseInfoSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = ["username", "email"]
