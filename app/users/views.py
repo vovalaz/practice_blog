@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import permissions
-from users.models import CustomUser
+from users.models import User
 from users.serializers import UserSerializer, UserDetailSerializer, UserBaseInfoSerializer, UserUpdateSerializer
 from users.permissions import IsOwner
 from configs.collections import Actions
@@ -11,7 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_permissions(self):

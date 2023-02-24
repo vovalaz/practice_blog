@@ -5,4 +5,4 @@ from reactions.models import Reaction
 class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reaction
-        fields = ["reaction_code", "emoji_image"]
+        fields = ["id", "reaction_code", "emoji_image"]

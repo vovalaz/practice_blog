@@ -61,9 +61,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "base.wsgi.application"
 
 
-AUTH_USER_MODEL = "users.CustomUser"
+AUTH_USER_MODEL = "users.User"
 
-AUTH_PROFILE_MODEL = "users.CustomUser"
+AUTH_PROFILE_MODEL = "users.User"
 
 DATABASES = {
     "default": {
@@ -107,7 +107,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 20,
+    "PAGE_SIZE": 50,
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_PARSER_CLASSES": (
