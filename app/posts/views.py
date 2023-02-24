@@ -48,14 +48,17 @@ class ReactToPost(APIView):
                 "reaction": reaction,
             },
         )
-
+        response = {"reaction": reaction.reaction_code, "post": obj.post.title, }
         if not created:
             if obj.reaction == reaction:
                 obj.delete()
-                return Response(f"Reaction {reaction} to post {obj.post} deleted", status=status.HTTP_204_NO_CONTENT)
+                response.update({"status": "deleted", })
+                return Response(response, status=status.HTTP_204_NO_CONTENT)
             else:
                 obj.reaction = reaction
                 obj.save()
-                return Response(f"Reaction {reaction} to post {obj.post} saved", status=status.HTTP_200_OK)
+                response.update({"status": "saved", })
+                return Response(response, status=status.HTTP_200_OK)
 
-        return Response(f"Reaction {reaction} to post {obj.post} saved", status=status.HTTP_201_CREATED)
+        response.update({"status": "saved", })
+        return Response(response, status=status.HTTP_201_CREATED)
